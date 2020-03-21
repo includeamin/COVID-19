@@ -62,33 +62,35 @@ def overlay_mask(mask, image):
     img = cv2.addWeighted(rgb_mask, 0.5, image, 0.5, 0)
     # show(img)
 
+classLabels = ["covid", "normal", "vira neumonia"]
 
 ap = argparse.ArgumentParser()
-ap.add_argument("-d", "--dataset", required=True, help="halloo insert dataset")
+ap.add_argument("-i", "--image_path", required=True, help="path to image")
 ap.add_argument("-m", "--model", required=True, help="path to output model")
 args = vars(ap.parse_args())
-size = 50
-classLabels = ["covid", "normal", "vira neumonia"]
-print("[INFO] sampling images ...")
-imagePaths = np.array(list(paths.list_images(args["dataset"])))
-idxs = np.random.randint(0, len(imagePaths), size=(1,))
-imagePaths = imagePaths[idxs]
-sp = SimplePreprocessor(size, size)
-iap = ImageToArrayPreprocessor()
-sdl = SimpleDatasetLoader(preprocessors=[sp, iap])
-(data, labels) = sdl.load(imagePaths)
-data = data.astype("float") / 255.0
-print("[INFO] loading pre-trained network ...")
-model = load_model(args["model"])
-print("[INFO] predicting ...")
-preds = model.predict(data, batch_size=size).argmax(axis=1)
-print(preds)
-for (i, imagePath) in enumerate(imagePaths):
-    # load the example image, draw the prediction, and display it
-    # to our screen
-    image = cv2.imread(imagePath)
+
+def amin():
+    image_path = args["image_path"]
+    size = 50
+    sp = SimplePreprocessor(size, size)
+    iap = ImageToArrayPreprocessor()
+    sdl = SimpleDatasetLoader(preprocessors=[sp, iap])
+    (data, labels) = sdl.single_load(image_path)
+    data = data.astype("float") / 255.0
+    model = load_model('./SavedModel/amin.hdf5')
+    preds = model.predict(data, batch_size=size).argmax(axis=1)
+    image = cv2.imread(image_path)
     # image=ReadyToUseImage(image)
-    cv2.putText(image, "Label: {}".format(classLabels[preds[i]]),
+    cv2.putText(image, "Label: {}".format(classLabels[preds[preds[0]]]),
                 (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
     cv2.imshow("Image", image)
     cv2.waitKey(0)
+
+
+if __name__ == '__main__':
+    amin()
+
+
+
+
+

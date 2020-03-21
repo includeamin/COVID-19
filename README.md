@@ -2,7 +2,7 @@
 Detection of Covid-19 from X-ray images
 
 ## Train
-``` python
+``` shell script
 python3 TRAIN.py -d dataset/test -m model_name.hdf5
 ```
 **NOTE** :
@@ -10,14 +10,15 @@ python3 TRAIN.py -d dataset/test -m model_name.hdf5
 - `ep` variable in TRAIN.py file is epoch count. you can change it.
 
 example:
-```sh
+```shell script
 python3 TRAIN.py -d dataset/test -m amin.hdf5
 ```
 result:
 ![train result](/ReadmeImages/train_result.png)
 
 ## Test 
-``` sh
+### test 10 random image
+``` shell script
 python3 test_model_10_images.py -d dataset/validation -m model_name.hdf5
 ```
 load and show 10 labeled samples
@@ -26,4 +27,13 @@ example:
 
 ![test result](/ReadmeImages/example_1.png)
 
- 
+### test single image
+
+```shell script
+python3 test_model_1_image.py -i path_to_image  -m path_to_model
+
+```
+example:
+```shell script
+python3 test_model_1_image.py -i ./dataset/one/covid/Chest.jpeg  -m ./SavedModel/amin.hdf5
+```

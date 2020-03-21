@@ -30,3 +30,19 @@ class SimpleDatasetLoader:
                 print(identifier)
 
         return np.array(data), np.array(labels)
+
+    def single_load(self, path):
+        data = []
+        labels = []
+        try:
+            image = cv2.imread(path)
+            label = path.split(os.path.sep)[-2]
+            if self.preprocessors is not None:
+                for p in self.preprocessors:
+                    image = p.preprocess(image)
+            data.append(image)
+            labels.append(label)
+        except Exception as identifier:
+            print(identifier)
+
+        return np.array(data), np.array(labels)
