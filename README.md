@@ -1,5 +1,5 @@
 # covid19-detection
-detection of Covid-19 from X-ray images
+Detection of Covid-19 from X-ray images
 
 ## Train
 ``` python
@@ -20,8 +20,9 @@ result:
 ``` sh
 python3 test_model_10_images.py -d dataset/validation -m model_name.hdf5
 ```
-load and show 10 labeled samples.
+load and show 10 labeled samples
+
 example:
-![train result](/ReadmeImages/example_1.png)
+![test result](/ReadmeImages/example_1.png)
 
  
