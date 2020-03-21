@@ -37,3 +37,6 @@ example:
 ```shell script
 python3 test_model_1_image.py -i ./dataset/one/covid/Chest.jpeg  -m ./SavedModel/amin.hdf5
 ```
+
+# Todo
+- Simple API for upload new images and gathering new datasets. data immediately predict by the system and validate by the user for the cleaner dataset.
