@@ -1,0 +1,18 @@
+version: '3'
+services:
+  covid:
+    container_name: covid19
+    build:
+      dockerfile: Dockerfile
+      context: .
+    ports:
+    - 88088:8000
+    env_file:
+        - conf.env
+    volumes:
+    - upload:./Files
+
+volumes:
+  - upload:
+      external:
+        name: covid_upload

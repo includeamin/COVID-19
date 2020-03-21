@@ -40,3 +40,6 @@ python3 test_model_1_image.py -i ./dataset/one/covid/Chest.jpeg  -m ./SavedModel
 
 # Todo
 - Simple API for upload new images and gathering new datasets. data immediately predict by the system and validate by the user for the cleaner dataset.
+
+## API
+for gathering more images and make  dataset better, I create e simple API for upload you X-RAY image of Chest
