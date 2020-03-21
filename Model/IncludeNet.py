@@ -16,7 +16,7 @@ class IncludeNet:
         input_shape = (height, width, depth)
         if K.image_data_format() == "channels_first":
             input_shape = (depth, height, width)
-        model.add(Dropout(0.2,input_shape=input_shape))
+        # model.add(Dropout(0.2,input_shape=input_shape))
         model.add(Conv2D(size, (3, 3), padding="same", input_shape=input_shape))
         model.add(Activation("relu"))
         model.add(MaxPooling2D(pool_size=(3, 3)))
