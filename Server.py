@@ -1,5 +1,8 @@
+from tempfile import NamedTemporaryFile
+from typing import IO
+
 from bson import ObjectId
-from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi import FastAPI, UploadFile, File, HTTPException, Header, Depends, BackgroundTasks
 from pydantic import BaseModel, validator
 from keras.models import load_model
 from Utils.ImageTools import ImageToArrayPreprocessor
@@ -8,6 +11,10 @@ from dataset.SimpleDatasetLoader import SimpleDatasetLoader
 import cv2
 from pymongo import MongoClient
 import os
+from uvicorn import run
+from starlette import status
+import shutil
+from datetime import datetime
 
 app = FastAPI()
 ClassLabels = ["covid", "normal", "vira neumonia"]
@@ -18,7 +25,8 @@ uploads_collection = MongoClient(host=os.environ["DATABASE_URL"]).get_database("
 class UploadCollectionDataModel(BaseModel):
     file_name: str
     system_predict: str
-    user_recommend: str
+    user_recommend: str = None
+    create_at: datetime = datetime.now()
 
     @validator("system_predict")
     def system_predict_validator(cls, v):
@@ -74,12 +82,9 @@ class LabelImage:
         return f"{LabelImage.UploadFolder}{image_name}"
 
     @staticmethod
-    def predict_file_name_creator(image_name: str):
-        return f"{LabelImage.UploadFolder}predict_{image_name}"
-
-    @staticmethod
-    async def label_the_image(image_name: str):
-        image_path = LabelImage.path_creator(image_name)
+    async def label_the_image(image_path: str, file_name: str, user_recommendation: str):
+        # print(image_name)
+        # image_path = LabelImage.path_creator(image_name)
         image = cv2.imread(image_path)
         size = 50
         sp = SimplePreprocessor(size, size)
@@ -91,11 +96,50 @@ class LabelImage:
         predict = model.predict(data, batch_size=size).argmax(axis=1)[0]
         cv2.putText(image, "Label: {}".format(ClassLabels[predict]),
                     (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
-        cv2.imwrite(LabelImage.predict_file_name_creator(image_name), image_path)
+        cv2.imwrite(Tools.get_predicted_file_name(file_name), image)
+        file_id = DataBase.add_new_uploaded_file(
+            UploadCollectionDataModel(file_name=file_name, system_predict=ClassLabels[predict],
+                                      user_recommend=user_recommendation))
+        return ClassLabels[predict], file_id
+
+
+class Tools:
+    @staticmethod
+    def get_secure_file_name(file_name: str):
+        return f"{datetime.now().timestamp()}.{file_name.split('.')[-1]}"
+
+    @staticmethod
+    def get_predicted_file_name(file_name: str):
+        return f"./Files/predicted_{file_name}"
+
+
+async def valid_content_length(content_length: int = Header(..., lt=80_000)):
+    return content_length
 
 
 @app.post("/upload/x-ray")
-async def create_upload_file(b_file: bytes = File(...), file: UploadFile = File(...)):
-    if len(b_file) > 4e+6:
+async def create_upload_file(
+        file: UploadFile = File(...),
+        user_recommendation: str = None
+):
+    real_file_size = 0
+    temp: IO = NamedTemporaryFile(delete=False)
+    secure_file_name = Tools.get_secure_file_name(file.filename)
+    for chunk in file.file:
+        real_file_size += len(chunk)
+        # if real_file_size > file_size:
+        #     raise HTTPException(
+        #         status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE, detail="Too large"
+        #     )
+        temp.write(chunk)
+    temp.close()
+    image_path = f"./Files/{secure_file_name}"
+    shutil.move(temp.name, image_path)
+    if file.file.__sizeof__() > 4e+6:
         raise HTTPException(detail="too large, file should be max 5 MB", status_code=405)
-    return {"filename": file.filename}
+    result, file_id = await LabelImage.label_the_image(image_path, secure_file_name, user_recommendation)
+    return {"predict": result, "file_id": file_id}
+
+
+if __name__ == '__main__':
+    run(app)
