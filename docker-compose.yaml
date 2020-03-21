@@ -2,17 +2,18 @@ version: '3'
 services:
   covid:
     container_name: covid19
-    build:
-      dockerfile: Dockerfile
-      context: .
+    image: includeamin/covid:v1
+   # build:
+      #dockerfile: Dockerfile
+      #context: .
     ports:
-    - 88088:8000
+    - 8838:8000
     env_file:
         - conf.env
     volumes:
-    - upload:./Files
+    - upload:/app/Files
 
 volumes:
-  - upload:
+   upload:
       external:
-        name: covid_upload
+        name: covid

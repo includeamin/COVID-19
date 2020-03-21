@@ -6,5 +6,5 @@ COPY . .
 
 RUN pip install -r requirements.txt
 
-CMD ["uvicorn","server:app"]
+CMD ["uvicorn","Server:app"]
 
