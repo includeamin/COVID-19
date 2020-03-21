@@ -42,7 +42,12 @@ python3 test_model_1_image.py -i ./dataset/one/covid/Chest.jpeg  -m ./SavedModel
 - Simple API for upload new images and gathering new datasets. data immediately predict by the system and validate by the user for the cleaner dataset.
 
 ## API
-for gathering more images and make the dataset better, I create e simple API for upload the X-RAY image of Chest.
+for gathering more images and make the dataset better, I create e simple API for upload the X-RAY image like below examples:
+![](/dataset/validation/covid/01.jpeg)
+![](/dataset/validation/covid/02.jpeg)
+![](/dataset/validation/covid/03.jpeg)
+
+
 The image will validate after upload and the server return label of the image.
-Label my be incorrect. (because of the low count of images in the dataset)
+Label my be incorrect. (because of the low count of images in the dataset).
 ![](docs.png)
