@@ -48,6 +48,6 @@ for gathering more images and make the dataset better, I create e simple API for
 ![](/dataset/validation/covid/03.jpeg)
 
 
-The image will validate after upload and the server return label of the image.
+The uploaded image will validate after upload and the server return label of the image.
 Label my be incorrect. (because of the low count of images in the dataset).
 ![](docs.png)
