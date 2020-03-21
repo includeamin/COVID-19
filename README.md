@@ -23,6 +23,7 @@ python3 test_model_10_images.py -d dataset/validation -m model_name.hdf5
 load and show 10 labeled samples
 
 example:
+
 ![test result](/ReadmeImages/example_1.png)
 
  
