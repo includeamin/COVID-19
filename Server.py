@@ -16,8 +16,13 @@ from starlette import status
 import shutil
 from datetime import datetime
 import keras
+from fastapi.requests import Request
+from fastapi.responses import FileResponse
+
 print(keras.__version__)
 app = FastAPI()
+from fastapi.templating import Jinja2Templates
+
 ClassLabels = ["covid", "normal", "vira neumonia"]
 
 uploads_collection = MongoClient(host=os.environ["DATABASE_URL"]).get_database("COVID19").get_collection("uploads")
@@ -140,6 +145,19 @@ async def create_upload_file(
         raise HTTPException(detail="too large, file should be max 5 MB", status_code=405)
     result, file_id = await LabelImage.label_the_image(image_path, secure_file_name, user_recommendation)
     return {"predict": result, "file_id": file_id}
+
+
+templates = Jinja2Templates(directory="templates")
+
+
+@app.get("/")
+async def read_item(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
+
+
+@app.get("/dist/dropzone.js")
+def get_dpks():
+    return FileResponse("Templates/dropzone.js")
 
 
 if __name__ == '__main__':
