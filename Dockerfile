@@ -35,12 +35,12 @@
 #CMD['python3','Server.py']
 #>>>>>>> 44fd15efd82ec164f0b5bd6e19ad5926288d7a5a
 FROM ubuntu:18.04
+EXPOSE 8000
 RUN apt update
-RUN apt install python3
-RUN apt install 
-RUN apt-get install python3-pip
+RUN apt install -y python3
+RUN apt-get install -y python3-pip
 RUN apt update && apt install -y libsm6 libxext6
-RUN apt-get install libsm6 libxrender1 libfontconfig1
+RUN apt-get install -y libsm6 libxrender1 libfontconfig1
 WORKDIR app
 COPY . .
 RUN pip3 install -r requirements.txt
