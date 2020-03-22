@@ -2,10 +2,10 @@ version: '3'
 services:
   covid:
     container_name: covid19
-    image: includeamin/covid:v1
-   # build:
-      #dockerfile: Dockerfile
-      #context: .
+#    image: covid:v1
+    build:
+      dockerfile: Dockerfile
+      context: .
     ports:
     - 8838:8000
     env_file:
