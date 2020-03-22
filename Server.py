@@ -15,7 +15,8 @@ from uvicorn import run
 from starlette import status
 import shutil
 from datetime import datetime
-
+import keras
+print(keras.__version__)
 app = FastAPI()
 ClassLabels = ["covid", "normal", "vira neumonia"]
 
@@ -74,7 +75,7 @@ class DataBase:
 
 
 class LabelImage:
-    Model_Path = './SavedModel/amin.hdf5'
+    Model_Path = './SavedModel/model_keras_215.hdf5'
     UploadFolder = './Files/'
 
     @staticmethod
