@@ -33,7 +33,7 @@ trainY = LabelBinarizer().fit_transform(trainY)
 testY = LabelBinarizer().fit_transform(testY)
 
 print("[INFO] compiling model...")
-opt = SGD(lr=0.025)
+opt = SGD(lr=0.05)
 model = IncludeNet.build(width=size, height=size, depth=dpt, classes=3)
 model.compile(loss="categorical_crossentropy", optimizer=opt, metrics=["accuracy"])
 
