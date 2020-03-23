@@ -19,7 +19,8 @@ from datetime import datetime
 import keras
 from fastapi.requests import Request
 from fastapi.responses import FileResponse
-from fastapi.responses import Response
+from fastapi.responses import Response, StreamingResponse
+
 print(keras.__version__)
 app = FastAPI()
 from fastapi.templating import Jinja2Templates
@@ -199,8 +200,8 @@ def get_last_result():
 @app.get("/github/stats/cas.svg")
 def get_stats_icon():
     s = badge(left_text='coverage', right_text='23%', right_color='red')
-    return Response(content=s,media_type='image/svg+xm')
-
+    # return StreamingResponse(content=bytes(s), media_type='image/svg')
+    return FileResponse()
 
 
 if __name__ == '__main__':
