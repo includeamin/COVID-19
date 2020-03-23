@@ -3,6 +3,7 @@ from typing import IO
 
 from bson import ObjectId
 from fastapi import FastAPI, UploadFile, File, HTTPException, Header, Depends, BackgroundTasks
+from pybadges import badge
 from pydantic import BaseModel, validator
 from keras.models import load_model
 from Utils.ImageTools import ImageToArrayPreprocessor
@@ -18,7 +19,7 @@ from datetime import datetime
 import keras
 from fastapi.requests import Request
 from fastapi.responses import FileResponse
-
+from fastapi.responses import Response
 print(keras.__version__)
 app = FastAPI()
 from fastapi.templating import Jinja2Templates
@@ -193,6 +194,13 @@ def get_last_result():
 
         "stats": resp_2
     }
+
+
+@app.get("/github/stats/cas.svg")
+def get_stats_icon():
+    s = badge(left_text='coverage', right_text='23%', right_color='red')
+    return Response(content=s,media_type='image/svg+xm')
+
 
 
 if __name__ == '__main__':

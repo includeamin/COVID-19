@@ -1,9 +1,12 @@
 # covid19-detection
 Detection of Covid-19 from X-ray images
 
-##Status:
+## Status:
 - TEST Accuracy : 90%
 - Model used in web : model_keras_215.hdf5
+
+[![result](http://0.0.0.0:8000/github/stats/cas.svg)](http://0.0.0.0:8000/github/stats/cas.svg)
+
 
 ## Train
 ``` shell script
