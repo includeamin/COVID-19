@@ -1,5 +1,5 @@
-div.main-center {
-    background-color: rgb(29, 23, 23);
+/* div.main-center {
+  background-color: rgb(29, 23, 23);
   width: 40%;
   height:40%;
   position: absolute;
@@ -8,4 +8,22 @@ div.main-center {
   transform: translate(-50%, -50%);
   border-radius: 1%;
 
+} */
+form.main-center {
+    background-color: rgb(29, 23, 23);
+    width: 40%;
+    height:40%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 1%;
+
+  
+  }
+.input.type-of-image {
+    width: 40%;
+    height:40%;
+    position: absolute;
+    padding: 5%;
 }

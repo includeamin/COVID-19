@@ -1,6 +1,10 @@
 # covid19-detection
 Detection of Covid-19 from X-ray images
 
+##Status:
+- TEST Accuracy : 90%
+- Model used in web : model_keras_215.hdf5
+
 ## Train
 ``` shell script
 python3 TRAIN.py -d dataset/test -m model_name.hdf5
@@ -38,11 +42,9 @@ example:
 python3 test_model_1_image.py -i ./dataset/one/covid/Chest.jpeg  -m ./SavedModel/amin.hdf5
 ```
 
-# Todo
-- Simple API for upload new images and gathering new datasets. data immediately predict by the system and validate by the user for the cleaner dataset.
-
 ## API ( WIP )
 for gathering more images and make the dataset better, I create e simple API for upload the X-RAY image like below examples:
+
 ![](/dataset/validation/covid/01.jpeg)
 ![](/dataset/validation/covid/02.jpeg)
 ![](/dataset/validation/covid/03.jpeg)
