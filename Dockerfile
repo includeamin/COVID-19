@@ -15,5 +15,5 @@ RUN   export LANG=C.UTF-8
 COPY . .
 #RUN pip3 install -r requirements.txt
 RUN pip3 install h5py
-CMD ["uvicorn" , "Server:app" , "--host" ,"0.0.0.0" ,"--port" ,"8000", "--log-level" , "trace"]
+CMD ["uvicorn" , "Server:app" , "--host" ,"0.0.0.0" ,"--port" ,"8000", "--log-level" , "debug"]
 
