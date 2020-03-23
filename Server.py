@@ -190,18 +190,29 @@ def get_last_result():
     ])
     resp_2 = [item for item in temp][0]
     resp_2.pop("_id")
+    resp_2["train_accuracy"] = "99%"
+    resp_2["test_accuracy"] = '91%'
+    resp_2["model_in_use"] = 'model_keras_215.hdf5'
 
     return {
-
         "stats": resp_2
     }
 
 
-@app.get("/github/stats/cas.svg")
-def get_stats_icon():
-    s = badge(left_text='coverage', right_text='23%', right_color='red')
-    # return StreamingResponse(content=bytes(s), media_type='image/svg')
-    return FileResponse()
+@app.get("/github/stats/{name}.svg")
+def get_stats_icon(name: str):
+    valid = ["total_correct_predict",
+             'total_wrong_predict',
+             "total_uploaded",
+             "test_accuracy",
+             "train_accuracy",
+             "model_in_use"]
+    if name not in valid:
+        raise HTTPException(detail="not found", status_code=404)
+    result = get_last_result()['stats'][name]
+    s = badge(left_text=name.replace('_', ' '), right_text=str(result),
+              right_color='green' if name != 'total_wrong_predict' else 'red')
+    return Response(content=s, media_type='image/svg+xml', status_code=200)
 
 
 if __name__ == '__main__':

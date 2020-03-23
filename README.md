@@ -2,8 +2,13 @@
 Detection of Covid-19 from X-ray images
 
 ## Status:
-- TEST Accuracy : 90%
-- Model used in web : model_keras_215.hdf5
+
+![alter](https://includeamin.com/covid/github/stats/total_uploaded.svg)
+![alter](https://includeamin.com/covid/github/stats/total_correct_predict.svg)
+![alter](https://includeamin.com/covid/github/stats/total_wrong_predict.svg)
+![alter](https://includeamin.com/covid/github/stats/test_accuracy.svg)
+![alter](https://includeamin.com/covid/github/stats/train_accuracy.svg)
+![alter](https://includeamin.com/covid/github/stats/model_in_use.svg)
 
 ## Train
 ``` shell script
