@@ -1,0 +1,11 @@
+div.main-center {
+    background-color: rgb(29, 23, 23);
+  width: 40%;
+  height:40%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 1%;
+
+}
