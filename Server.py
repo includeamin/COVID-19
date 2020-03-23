@@ -33,6 +33,7 @@ class UploadCollectionDataModel(BaseModel):
     system_predict: str
     user_recommend: str = None
     create_at: datetime = datetime.now()
+    is_correct: bool = False
 
     @validator("system_predict")
     def system_predict_validator(cls, v):
@@ -103,9 +104,10 @@ class LabelImage:
         cv2.putText(image, "Label: {}".format(ClassLabels[predict]),
                     (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
         cv2.imwrite(Tools.get_predicted_file_name(file_name), image)
+        is_correct: bool = True if user_recommendation == ClassLabels[predict] else False
         file_id = DataBase.add_new_uploaded_file(
             UploadCollectionDataModel(file_name=file_name, system_predict=ClassLabels[predict],
-                                      user_recommend=user_recommendation))
+                                      user_recommend=user_recommendation, is_correct=is_correct))
         return ClassLabels[predict], file_id
 
 
@@ -117,6 +119,18 @@ class Tools:
     @staticmethod
     def get_predicted_file_name(file_name: str):
         return f"./Files/predicted_{file_name}"
+
+    @staticmethod
+    def pagination(page=1):
+        PAGE_SIZE = 15
+        x = page - 1
+        skip = PAGE_SIZE * x
+        return skip, PAGE_SIZE
+
+    @staticmethod
+    def mongo_id_fix(data: dict):
+        data["_id"] = str(data["_id"])
+        return data
 
 
 async def valid_content_length(content_length: int = Header(..., lt=80_000)):
@@ -155,9 +169,30 @@ async def read_item(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 
-@app.get("/dist/dropzone.js")
-def get_dpks():
-    return FileResponse("Templates/dropzone.js")
+@app.get("/get_last_uploads_result")
+def get_last_result():
+    temp = uploads_collection.aggregate([
+        {
+            "$group": {
+                "_id": "$_id",
+                "total_correct_predict": {
+                    "$sum": {"$cond": ["$is_correct", 1, 0]}
+                },
+                "total_wrong_predict": {
+                    "$sum": {"$cond": ["$is_correct", 0, 1]}
+                },
+                "total_uploaded": {"$sum": 1}
+
+            }
+        }
+    ])
+    resp_2 = [item for item in temp][0]
+    resp_2.pop("_id")
+
+    return {
+
+        "stats": resp_2
+    }
 
 
 if __name__ == '__main__':
