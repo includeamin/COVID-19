@@ -56,8 +56,10 @@ Label my be incorrect. (because of the low count of images in the dataset).
 ![](/dataset/validation/covid/02.jpeg)
 ![](/dataset/validation/covid/03.jpeg)
 
+## API Docs
+- Deploying
 ## Website Version
 - Work In Progress
 
 ## Flutter Version
-- Flutter Version will developed by @EhsanTgv
+- Flutter Version will develope by @EhsanTgv
