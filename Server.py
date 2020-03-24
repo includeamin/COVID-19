@@ -1,6 +1,6 @@
 from tempfile import NamedTemporaryFile
 from typing import IO
-
+from fastapi.middleware.cors import CORSMiddleware
 from bson import ObjectId
 from fastapi import FastAPI, UploadFile, File, HTTPException, Header, Depends, BackgroundTasks
 from pybadges import badge
@@ -28,6 +28,17 @@ from fastapi.templating import Jinja2Templates
 ClassLabels = ["covid", "normal", "vira neumonia"]
 
 uploads_collection = MongoClient(host=os.environ["DATABASE_URL"]).get_database("COVID19").get_collection("uploads")
+origins = [
+    "*"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 class UploadCollectionDataModel(BaseModel):
@@ -167,7 +178,14 @@ templates = Jinja2Templates(directory="templates")
 
 
 @app.get("/")
-async def read_item(request: Request):
+async def index(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
+
+
+@app.get("/{name}")
+async def read_item(request: Request, name: str = None):
+    if name is not None:
+        return FileResponse(path=f'./Templates/{name}')
     return templates.TemplateResponse("index.html", {"request": request})
 
 
