@@ -60,7 +60,7 @@ Label my be incorrect. (because of the low count of images in the dataset).
 ### run on your host
 - add mongodb address to `conf.env` file
 - run `sudo docker-compose up -d`
-- open docs `http://host:port/docs`
+- open docs `http://host:8838/docs`
 
 ## Website Version
 - Work In Progress
