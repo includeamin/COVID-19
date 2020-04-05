@@ -57,7 +57,14 @@ Label my be incorrect. (because of the low count of images in the dataset).
 ![](/dataset/validation/covid/03.jpeg)
 
 ## API Docs
-- Deploying
+### run on your host
+- add mongodb address to env file
+- docker-compose up -d
+``` sh
+sudo docker-compose up -d
+```
+- open docs `http://host:port/docs`
+
 ## Website Version
 - Work In Progress
 
