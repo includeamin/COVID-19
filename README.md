@@ -9,6 +9,8 @@ Detection of Covid-19 from X-ray images
 ![alter](https://includeamin.com/covid/github/stats/test_accuracy.svg)
 ![alter](https://includeamin.com/covid/github/stats/train_accuracy.svg)
 ![alter](https://includeamin.com/covid/github/stats/model_in_use.svg)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FEFTEUJT3YPDJ)
+
 
 ## Train
 ``` shell script
