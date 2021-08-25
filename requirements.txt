@@ -3,5 +3,5 @@ keras==2.1.5
 opencv-python==4.2.0.32
 uvicorn == 0.11.3
 pymongo
-tensorflow==1.5
+tensorflow==2.5.1
 h5py
